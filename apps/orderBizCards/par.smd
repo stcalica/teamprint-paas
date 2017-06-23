@@ -1,0 +1,145 @@
+{
+  "id" : "par",
+  "siteId" : "par",
+  "applicationId" : "orderBizCard",
+  "siteAuth": {
+    "authTypes": [
+      {
+        "descriptor": "wdayOauth2Client",
+        "id": "wdayOauth2Client",
+        "scheme": "OAUTH2",
+        "source": "OMS",
+        "_comment": "change the reference id below to the client id of the ouath 2.0 client that you registered in the workday tenant.",
+        "referenceId": "N2RjNDI1M2YtMzYzNy00YWMxLWEzNGYtNjM4ZmViZTBlYWU5"
+      },
+      {
+        //sso auth definition
+        "scheme": "SSO",
+        "id": "suvsso"
+        //,"source": "OMS"
+        //referenceId is for OAuth
+      },
+      {
+        "scheme":"NOAUTH",
+        "id":"noAuth"
+      }
+    ],
+    "defaultId": "wdayOauth2Client"
+  },
+  "_comment": "Specify the basepaths for the various data providers to use in PMDs!  ",
+  "dataProviders": [
+    {
+      "key":"teamPrint",
+      "value":"http://teampprint.edgeofrevolt.com/"
+    }
+    {
+      "key": "whitney",
+      "value": "https://api.workday.com/referenceData/"
+    },
+    {
+      "key": "workday-common",
+      "value": "https://api.workday.com/common/v1/"
+    },
+    {
+      "key": "workday-procurement",
+      "value": "https://api.workday.com/procurement/v1/"
+    }
+  ],
+  "tenantConfidenceLevel": "PRODUCTION",
+
+  "titles": [
+    {
+      "value": "Order Business Cards Reference Application",
+      "languageCode": "en_US"
+    }
+  ],
+  "tasks" : [ {
+    "id" : "root",
+    "routingPattern" : "/",
+    "page" : {
+      "id" : "root",
+      "href" : "http://localhost:8000/root.pmd"
+    },
+    "authenticated" : false,
+    "authenticateRequiredAccountOnly" : false,
+    "accountHome" : false,
+    "pageId" : "root"
+  },
+    {
+      "routingPattern": "orderBusinessCards",
+      "id": "orderBusinessCards",
+      "page": {
+        "descriptor": "Order Business Cards",
+        "href": "http://localhost:9000/orderBusinessCardRefApp/orderBusinessCards.json",
+        "id": "orderBusinessCards"
+      }
+    },
+    {
+      "routingPattern": "orderBusinessCardsSubmit",
+      "id": "orderBusinessCardsSubmit",
+      "page": {
+        "descriptor": "Submit the business card order",
+        "href": "http://localhost:9000/orderBusinessCardRefApp/orderBusinessCardsSubmit.json",
+        "id": "orderBusinessCardsSubmit"
+      }
+    },
+    {
+      "routingPattern": "orderBusinessCardsConfirmation",
+      "id": "orderBusinessCardsConfirmation",
+      "page": {
+        "descriptor": "Confirmation page for the order business cards appliation",
+        "href": "http://localhost:9000/orderBusinessCardRefApp/orderBusinessCardsConfirmation.json",
+        "id": "orderBusinessCardsConfirmation"
+      }
+    },
+    {
+      "routingPattern": "orderHistory",
+      "id": "orderHistory",
+      "page": {
+        "descriptor": "Shows the most recent order history for the logged in user.",
+        "href": "http://localhost:9000/orderBusinessCardRefApp/orderHistory.json",
+        "id": "orderHistory"
+      }
+    }
+  ],
+  "_comment": "Flow definitions define how to link up pages to complete a transaction.   For this example, we only have one flow for ordering business cards.",
+  "flowDefinitions": [
+    {
+      "id": "orderBusinessCardsFlow",
+      "flowSteps": [
+        {
+          "id": "orderBusinessCards",
+          "taskId": "orderBusinessCards",
+          "stepName": "a",
+          "startsFlow": true,
+          "transitions": [
+            {
+              "id": "submitOrderBusinessCards",
+              "value": "submitOrderBusinessCards",
+              "condition": "true"
+            }
+          ]
+        },
+        {
+          "descriptor": "Submit business card order",
+          "id": "submitOrderBusinessCards",
+          "taskId": "orderBusinessCardsSubmit",
+          "stepName": "b",
+          "transitions": [
+            {
+              "id": "confirmOrderBusinessCards",
+              "value": "confirmOrderBusinessCards",
+              "condition": "true"
+            }
+          ]
+        },
+        {
+          "id": "confirmOrderBusinessCards",
+          "taskId": "orderBusinessCardsConfirmation",
+          "stepName": "c",
+          "endsFlow": true
+        }
+      ]
+    }
+  ]
+}

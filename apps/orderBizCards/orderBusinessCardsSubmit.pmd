@@ -1,0 +1,125 @@
+{
+  "outboundData": {
+    "outboundEndPoints": [
+      {
+        "baseUrlType": "workday-procurement",
+        "url": "requisitions",
+        "authType" : "wdayOauth2Client",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "application/json"
+          }
+        ],
+        "name": "requisition",
+        "httpMethod": "POST"
+      },
+      {
+        "values": [
+          {
+            "outboundPath": "requisitionId",
+            "value": "${requisition.id}"
+          }
+        ],
+        "variableScope": "flow",
+        "type": "outboundVariable",
+        "name": "transitionOutboundVars"
+      }
+    ]
+  },
+  "presentation": {
+    "standardEditButtonsHidden": "${false}",
+    "title": {
+      "type": "title",
+      "label": "Order Business Cards - Submit"
+    },
+    "header": {
+      "type": "header",
+      "headerSize": "STANDARD"
+    },
+    "body": {
+      "type": "section",
+      "children": [
+        {
+          "type": "hidden",
+          "label": "ID",
+          "id": "id",
+          "value": "${queryParams.id}",
+          "valueOutBinding": "requisition.requester.id"
+        },
+        {
+          "type": "readOnlyText",
+          "label": "Name",
+          "id": "name",
+          "value": "${queryParams.name}"
+        },
+        {
+          "type": "hidden",
+          "label": "Order Business Cards for",
+          "id": "orderfor",
+          "value": "${string:concat('Business Cards Order for: ',queryParams.name)}",
+          "valueOutBinding": "requisition.memo"
+        },
+        {
+          "type": "readOnlyText",
+          "label": "Title",
+          "id": "title",
+          "value": "${queryParams.title}"
+        },
+        {
+          "type": "readOnlyText",
+          "label": "Address",
+          "id": "address",
+          "value": "${queryParams.address}"
+        },
+        {
+          "type": "readOnlyText",
+          "label": "Country",
+          "id": "country",
+          "value": "${queryParams.country}"
+        },
+        {
+          "type": "readOnlyText",
+          "label": "Phone",
+          "id": "phone",
+          "value": "${queryParams.phone}"
+        },
+        {
+          "type": "readOnlyText",
+          "label": "Mobile",
+          "id": "mobile",
+          "value": "${queryParams.mobile}"
+        },
+        {
+          "type": "readOnlyText",
+          "label": "Email",
+          "id": "email",
+          "value": "${queryParams.email}"
+        },
+        {
+          "type": "hidden",
+          "label": "Business Cards - Purchase Item Id",
+          "id": "itemId",
+          "_comment": "change the value below to the workday id of the business card purchase item that you created inside your tenant.",
+          "value": "6d26132543c7010c71923ef620009500",
+          "valueOutBinding": "requisition.requisitionLines[0].item.id"
+        },
+        {
+          "type": "hidden",
+          "label": "Quantity",
+          "id": "quantity",
+          "value": "1",
+          "valueOutBinding": "requisition.requisitionLines[0].quantity"
+        },
+        {
+          "type": "hidden",
+          "label": "Memo",
+          "id": "memo",
+          "value": "${string:formatListToString('|', list:toList(string:concat('Name:',queryParams.name), string:concat('Title:',queryParams.title), string:concat('Address:',queryParams.address), string:concat('Country:',queryParams.country),  string:concat('Phone:',queryParams.phone), string:concat('Mobile:', queryParams.mobile), string:concat('Email:',queryParams.email)))}",
+          "valueOutBinding": "requisition.requisitionLines[0].memo"
+        }
+      ]
+    },
+    "isEmbedded": false
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id" : "teamprint",
+  "siteId" : "teamprint",
+  "applicationId" : "teamprint",
+  "tenantConfidenceLevel" : "PRODUCTION",
+  "siteAuth" : {
+    "authTypes" : [ {
+      "id" : "sso",
+      "useX5t" : false,
+      "authorizeEndpoint" : "http://localhost:11020/ccx/internalapi/sso/v1/super/joinDistributedSession/join",
+      "tokenEndpoint" : "http://localhost:11020/ccx/internalapi/sso/v1/super/spanDistributedSession/span",
+      "scheme" : "SSO"
+    } ],
+    "defaultId" : "sso"
+  },
+  "tasks" : [ {
+    "id" : "root",
+    "routingPattern" : "/home",
+    "page" : {
+      "id" : "home",
+      "href" : "http://localhost:8000/home.pmd"
+    },
+    "authenticated" : false,
+    "authenticateRequiredAccountOnly" : false,
+    "accountHome" : false,
+    "pageId" : "home"
+  }
+  ]
+}

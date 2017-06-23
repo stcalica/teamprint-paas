@@ -1,0 +1,26 @@
+{
+  "presentation" : {
+    "headerSize" : "VPS_DEFAULT",
+    "dirtyPage" : "${false}",
+    "enableFullScreen" : "${false}",
+    "body" : {
+      "type" : "section",
+      "horizontal" : false,
+      "sorted" : false,
+      "children" : [ {
+        "type" : "text",
+        "id" : "teamprint",
+        "label" : "Hello World!",
+        "value" : "Welcome to Workday!"
+      },
+      {
+        "type":"section",
+        "id": "header",
+        "label":"Header"
+      }
+    ]
+    }
+  },
+  "confirmPageMode" : false,
+  "dirtyPage" : "${false}"
+}

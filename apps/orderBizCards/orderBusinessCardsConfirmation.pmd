@@ -1,0 +1,37 @@
+{
+    "endPoints": [
+    {
+        "baseUrlType": "workday-procurement",
+        "url": "requisitions/${queryParams.requisitionId}",
+        "name": "requisition",
+        "authType" : "wdayOauth2Client"
+    }
+    ],
+    "presentation": {
+        "standardEditButtonsHidden": "${false}",
+        "title": {
+            "type": "title",
+            "label": "Your Business Cards Order has been successfully submitted"
+        },
+        "header": {
+            "type": "header",
+            "headerSize": "STANDARD"
+        },
+        "body": {
+            "type": "section",
+            "children": [
+            {
+                "type": "richText",
+                "value": "${string:formatMessage('Your Business Card Order {0} hase been successfully submitted!  Click below to see the Order History!', requisition.descriptor)}"
+            },
+            {
+                "type": "button",
+                "label": "Order History",
+                "action": "PRIMARY",
+                "actionURI": "/orderHistory"
+            }
+            ]
+        },
+        "isEmbedded": false
+    }
+}

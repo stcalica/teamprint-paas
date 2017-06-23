@@ -1,0 +1,88 @@
+{
+  "endPoints": [
+    {
+        "name": "me",
+        "baseUrlType": "workday-common",
+        "url": "workers/me",
+        "authType" : "wdayOauth2Client"
+    },
+    {
+        "name": "orderHistory",
+        "baseUrlType": "workday-procurement",
+        "url": "requisitions?submittedBy=${me.id}",
+        "authType" : "wdayOauth2Client"
+    }
+  ],
+  "presentation": {
+    "header": {
+      "type": "header",
+      "headerSize": "STANDARD"
+    },
+    "body": {
+      "type": "section",
+      "title": "Order History",
+      "children": [
+        {
+          "type": "grid",
+          "gridType": "LIST",
+          "id": "orders",
+          "title": "Previous Orders",
+          "rows": "${orderHistory.data}",
+          "rowVariableName": "order",
+          "columns": [
+            {
+              "type": "column",
+              "id": "requisition",
+              "columnId": "requisition",
+              "cellTemplate": {
+                "type": "text",
+                "value": "${order.descriptor}"
+              },
+              "label": "Requisition Identifier"
+            },
+            {
+              "type": "column",
+              "id": "memo",
+              "columnId": "memo",
+              "cellTemplate": {
+              "type": "text",
+              "value": "${order.memo}"
+              },
+              "label": "Memo"
+            },
+            {
+              "type": "column",
+              "id": "requester",
+              "columnId": "requester",
+              "cellTemplate": {
+                "type": "text",
+                "value": "${order.requester.descriptor}"
+              },
+              "label": "Requester"
+            },
+            {
+              "type": "column",
+              "id": "orderDate",
+              "columnId": "orderDate",
+              "cellTemplate": {
+                "type": "text",
+                "value": "${order.requisitionDate}"
+              },
+              "label": "Order Date"
+            },
+            {
+              "type": "column",
+              "id": "amount",
+              "columnId": "amount",
+              "cellTemplate": {
+                "type": "text",
+                "value": "${order.amount.value} ${order.amount.currency}"
+              },
+              "label": "Total"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

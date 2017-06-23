@@ -1,0 +1,162 @@
+dPoints": [
+    {
+      "name": "myInfo",
+      "baseUrlType": "workday-common",
+      "url": "workers/me",
+      "authType" : "wdayOauth2Client"
+    },
+    {
+      "name": "countries",
+      "baseUrlType": "whitney",
+      "url":"country/vers/latest/items",
+      "authType" : "wdayOauth2Client"
+    },
+  {
+          "name":"getUsers",
+          "baseUrlType":"teamPrint",
+          "url":"getUsers/${userid}",
+          "authType": "noAuth"
+  }
+  ],
+  "outboundData": {
+    "outboundEndPoints": [
+      {
+        "values": [
+          {
+            "outboundPath": "id",
+            "value": "${workerid.value}"
+          },
+          {
+            "outboundPath": "name",
+            "value": "${name.value}"
+          },
+          {
+            "outboundPath": "title",
+            "value": "${getUsers.value}"
+          },
+          {
+            "outboundPath": "address",
+            "value": "${address.value}"
+          },
+          {
+            "outboundPath": "country",
+            "value": "${country.value}"
+          },
+          {
+            "outboundPath": "phone",
+            "value": "${phone.value}"
+          },
+          {
+            "outboundPath": "mobile",
+            "value": "${mobile.value}"
+          },
+          {
+            "outboundPath": "email",
+            "value": "${email.value}"
+          },
+          {
+            "outboundPath": "memo",
+            "value": "${memo.value}"
+          }
+        ],
+        "variableScope": "flow",
+        "type": "outboundVariable",
+        "name": "transitionOutboundVars"
+      }
+    ]
+  },
+  "presentation": {
+    "standardEditButtonsHidden": "${false}",
+    "title": {
+      "type": "title",
+      "label": "${siteLabels.HOME.Title}"
+    },
+    "header": {
+      "type": "header",
+      "headerSize": "STANDARD"
+    },
+    "body": {
+      "type": "section",
+      "children": [
+        {
+          "type": "hidden",
+          "label": "ID",
+          "id": "workerid",
+          "value": "${myInfo.id}",
+          "valueOutBinding": "workerid"
+        },
+        {
+          "type": "text",
+          "label": "Name",
+          "id": "name",
+          "required": "true",
+          "value": "${getUsers.id}",
+          "valueOutBinding": "name"
+        },
+        {
+          "type": "text",
+          "label": "Title",
+          "id": "title",
+          "required": "true",
+          "value": "${myInfo.businessTitle}",
+          "valueOutBinding": "title"
+        },
+        {
+          "type": "textArea",
+          "label": "Address",
+          "id": "address",
+          "value": "${myInfo.primaryWorkAddressText}",
+          "valueOutBinding": "address"
+        },
+        {
+          "type": "dropdown",
+          "label": "Country - Whitney",
+          "values": "${countries.items}",
+          "idKey": "name",
+          "displayKey": "name",
+          "id": "country"
+        },
+        {
+          "type": "text",
+          "label": "Phone",
+          "id": "phone",
+          "value": "${myInfo.primaryWorkPhone}",
+          "valueOutBinding": "phone"
+        },
+        {
+          "type": "text",
+          "label": "Mobile",
+          "id": "mobile",
+          "valueOutBinding": "mobile"
+        },
+        {
+          "type": "text",
+          "label": "Email",
+          "id": "email",
+          "value": "${myInfo.primaryWorkEmail}",
+          "valueOutBinding": "email"
+        },
+        {
+          "type": "hidden",
+          "label": "Business Cards - Purchase Item Id",
+          "id": "itemId",
+          "value": "ab8f5f8e8be0100019ec26b98f72010c"
+        },
+        {
+          "type": "hidden",
+          "label": "Quantity",
+          "id": "quantity",
+          "value": "1"
+        },
+        {
+          "type": "hidden",
+          "label": "Memo",
+          "id": "memo",
+          "value": "${string:formatListToString('|', list:toList(string:concat('Name:',myInfo.descriptor), string:concat('Title:',myInfo.businessTitle), string:concat('Address:',myInfo.primaryWorkAddressText), 'Country:', string:concat('Phone:',myInfo.primaryWorkPhone),'Mobile:',string:concat('Email:',myInfo.primaryWorkEmail)))}",
+          "valueOutBinding": "memo"
+        }
+      ]
+    },
+    "isEmbedded": false
+  }
+}
